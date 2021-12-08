@@ -1,0 +1,24 @@
+--insert into usuario(usuario,nombres,apellidos,tokenA) values ('joeaespi', 'Joel Andres', 'Espinoza Delgado','123A');
+--insert into usuario(usuario,nombres,apellidos,tokenA) values ('leolespi', 'Leonardo Lenin', 'Espinoza Delgado','');
+
+--DROP TABLE IF EXISTS usuario CASCADE;
+--DROP TABLE IF EXISTS Usuario CASCADE;
+--CREATE TABLE Usuario(
+--id serial PRIMARY KEY,
+--usuario VARCHAR(50) UNIQUE,
+--nombres VARCHAR(100),
+--apellidos VARCHAR(100),
+--tokenA VARCHAR(500));
+
+DROP TABLE IF EXISTS tokenLog CASCADE;
+--DROP TABLE IF EXISTS TokenLog CASCADE;
+CREATE TABLE tokenLog(
+id serial PRIMARY KEY,
+usuario VARCHAR(50),
+anteriorToken VARCHAR(500),
+actualToken VARCHAR(500),
+mensaje VARCHAR(500),
+CONSTRAINT fk_ususario FOREIGN KEY (usuario) REFERENCES Usuario(usuario));
+insert into tokenLog(usuario,anteriorToken,actualToken,mensaje) values ('joeaespi', ' ', '132A','Ha cambiado su tokena a 123A');
+select * from TokenLog;
+--select * from Usuario;
