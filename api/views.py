@@ -73,7 +73,7 @@ class Token(generics.GenericAPIView):
             res = generarToken(usuario)
             usuarioE = Usuario.objects.filter(usuario=usuario)
             hilo = threading.Thread(name='hilo de actualización de token',
-                                target=autoToken2, 
+                                target=autoToken, 
                                 args=(60,usuario))
             hilo.start()
             return JsonResponse(res, status=200)
@@ -104,7 +104,11 @@ def generarToken(usuario):
     
 def autoToken(segundos,usuario):
     nombre = threading.current_thread().getName()
+    flag = True
+    limite = time.time() + 43200
     print("Estoy ejecutando el hilo: " , nombre," correspondiente al usuario: ",usuario)
-    while True:
+    while flag:
         generarToken(usuario)
+        if time.time() == limite:
+            flag = False
         time.sleep(segundos)
