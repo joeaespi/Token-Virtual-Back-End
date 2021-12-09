@@ -26,17 +26,42 @@ SECRET_KEY = 'django-insecure-b8six-0=##pa0d_yd772%8&8hg05v&7g%+=&&#kp3s!a(&yy0!
 DEBUG = True
 
 
-#CSRF_COOKIE_NAME = "XSRF-TOKEN"
+CSRF_COOKIE_NAME = "XSRF-TOKEN"
 
-#CORS_EXPOSE_HEADERS = ["Content-Disposition"]
+CORS_EXPOSE_HEADERS = ["Content-Disposition"]
 
 ALLOWED_HOSTS = ['*',]
+CORS_ORIGIN_WHITELIST = [
+"http://127.0.0.1:4200",
+"http://localhost:4200",
+]
+CORS_ORIGIN_ALLOW_ALL = True
 
-#CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_CREDENTIALS = True
 
-#CORS_ALLOW_CREDENTIALS = True
 
-#CSRF_COOKIE_SECURE = False
+CORS_ALLOW_METHODS = [
+'DELETE',
+'GET',
+'OPTIONS',
+'PATCH',
+'POST',
+'PUT',]
+
+CORS_ALLOW_HEADERS = [
+'accept',
+'accept-encoding',
+'authorization',
+'content-type',
+'dnt',
+'origin',
+'user-agent',
+'x-csrftoken',
+'x-requested-with',
+'Access-Control-Allow-Origin',]
+
+
+CSRF_COOKIE_SECURE = False
 # Application definition
 
 INSTALLED_APPS = [
@@ -50,7 +75,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     
-    #'corsheaders',
+    'corsheaders',
     
     'api',
     
@@ -59,6 +84,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',

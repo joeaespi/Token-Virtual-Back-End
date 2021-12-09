@@ -45,11 +45,14 @@ class UsuarioToken(generics.GenericAPIView):
         Obtiene la información del usuario junto a su token.
     """
     def get(self, request):
-        usuario = request.GET['cliente']
-        token = request.GET['token']
+        usuario = str(request.GET['cliente'])
+        token = str(request.GET['token'])
         if usuario!=None and token !=None:
-            print(usuario,token)
+            print("Este es el usuario:",usuario.replace(" ", ""))
+            print("Este su token:",token.replace(" ", ""))
+            print(Usuario.objects.filter(usuario=usuario.lstrip(),tokena=token.lstrip()))
             usuarioE = Usuario.objects.filter(usuario=usuario,tokena=token)
+            print(usuarioE[0])
             res=dict()
             res["id"]=usuarioE[0].id
             res["usuario"]=usuarioE[0].usuario
