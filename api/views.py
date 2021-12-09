@@ -43,11 +43,7 @@ class UsuarioToken(generics.GenericAPIView):
     -------
     get(usuario)
         Obtiene la información del usuario junto a su token.
-    post(usuario)
-        Permite generar un token con respecto al usuario
-        asociado.
     """
-    #def get(self, request, usuario,token):
     def get(self, request):
         usuario = request.GET['cliente']
         token = request.GET['token']
@@ -70,18 +66,16 @@ class Token(generics.GenericAPIView):
     get(usuario)
         Permite generar un token a un usuario.
     """
-    #def get(self, request, usuario,token):
     def get(self, request):
         usuario = request.GET['cliente']
         if usuario!=None:
             print(usuario)
             res = generarToken(usuario)
-            usuarioE = Usuario.objects.filter(usuario=usuario,tokena=token)
+            usuarioE = Usuario.objects.filter(usuario=usuario)
             hilo = threading.Thread(name='hilo de actualización de token',
-                                target=autoToken, 
-                                args=(20,usuario))
+                                target=autoToken2, 
+                                args=(60,usuario))
             hilo.start()
-            #return Response(usuarioE)
             return JsonResponse(res, status=200)
 
     
@@ -103,24 +97,14 @@ def generarToken(usuario):
         res["usuario"]=user[0].usuario
         res["nombres"] = user[0].nombres+" "+user[0].apellidos
         res["token"] = token
-    #return Response(token.key)
-        #return 
     except Usuario.DoesNotExist:
-        #return Response("El usuario no existe")
         res["mensaje"] = "El usuario no existe"
     return res
 
     
-
 def autoToken(segundos,usuario):
-    inicial = time.time()
-    print("valor de variable inicial: ",inicial)
-    limite = inicial + segundos
-    print("Valor de variable llimite: ",limite)
     nombre = threading.current_thread().getName()
-    #print("Valor de variable nombre: " , nombre)
-    while inicial <= limite:
-        inicial = time.time()
+    print("Estoy ejecutando el hilo: " , nombre," correspondiente al usuario: ",usuario)
+    while True:
         generarToken(usuario)
-        #print(nombre, contador)
-    print("He alcanzado el lite de ",segundos,"segundos")
+        time.sleep(segundos)

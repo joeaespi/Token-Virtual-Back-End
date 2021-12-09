@@ -21,4 +21,4 @@ class TokenLog(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'tokenLog'
+        db_table = 'tokenlog'
