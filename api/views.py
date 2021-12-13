@@ -82,6 +82,10 @@ class Token(generics.GenericAPIView):
             res = dict()
             user = Usuario.objects.filter(usuario=usuario)
             global segundos
+            global flag
+            if flag == False:
+                print("El hilo es falso")
+                flag = True
             if validarUsariosActivos(usuario):
                 #segundos = 50
                 print("Ya tiene un hilo activado")
